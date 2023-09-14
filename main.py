@@ -97,30 +97,45 @@ def message(message):
     temp = mqttc.subscribe(topic_temp, 0)
 
     markup = telebot.types.InlineKeyboardMarkup()
-    button1 = types.InlineKeyboardButton('☔  Узнать температуру в отделе  ☔', callback_data='one')
-    button2 = types.InlineKeyboardButton('🧑‍💻 Сгенерить СЕТУНЬ 🧑‍💻', callback_data='two')
-    button3 = types.InlineKeyboardButton('🧑‍💻 Сгенерить рабочие планы 🧑‍💻', callback_data='three')
+    button1 = types.InlineKeyboardButton('Да', callback_data='start')
     markup.row(button1)
-    markup.row(button2)
-    markup.row(button3)
-    bot.send_message(message.from_user.id,f"Что будем делать?", reply_markup=markup)
+    bot.send_message(message.from_user.id,f"Поехали?", reply_markup=markup)
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    if call.data == 'one':
+    if call.data == 'start':
+        markup = telebot.types.InlineKeyboardMarkup()
+        button1 = types.InlineKeyboardButton('☔  Узнать температуру в отделе  ☔', callback_data='one')
+        button2 = types.InlineKeyboardButton('🧑‍💻 Сгенерить СЕТУНЬ 🧑‍💻', callback_data='two')
+        button3 = types.InlineKeyboardButton('🧑‍💻 Сгенерить рабочие планы 🧑‍💻', callback_data='three')
+        markup.row(button1)
+        markup.row(button2)
+        markup.row(button3)
+        bot.send_message(call.message.chat.id, 'Что будем делать?', reply_markup=markup)
+
+
+    elif call.data == 'one':
         bot.send_message(call.message.chat.id, '==================')
         bot.send_message(call.message.chat.id, 'Температура в офисе нормальная')
-        bot.send_message(call.message.chat.id, '==================')
         markup = telebot.types.InlineKeyboardMarkup()
-        button1 = types.InlineKeyboardButton('Назад', callback_data='main')
+        button1 = types.InlineKeyboardButton('Назад', callback_data='start')
         markup.row(button1)
-        bot.send_message(call.message.chat.id, 'ggg', reply_markup=markup)
-
+        bot.send_message(call.message.chat.id, '==================', reply_markup=markup)
     elif call.data == 'two':
+        bot.send_message(call.message.chat.id, '==================')
         bot.send_message(call.message.chat.id, 'Функция в разработке')
+        markup = telebot.types.InlineKeyboardMarkup()
+        button1 = types.InlineKeyboardButton('Назад', callback_data='start')
+        markup.row(button1)
+        bot.send_message(call.message.chat.id, '==================', reply_markup=markup)
     elif call.data == 'three':
+        bot.send_message(call.message.chat.id, '==================')
         bot.send_message(call.message.chat.id, 'Функция в разработке')
+        markup = telebot.types.InlineKeyboardMarkup()
+        button1 = types.InlineKeyboardButton('Назад', callback_data='start')
+        markup.row(button1)
+        bot.send_message(call.message.chat.id, '==================', reply_markup=markup)
 
 
     #bot.reply_to(message, "Что будем длать?!", reply_markup=keyboard('start'))
